@@ -23,14 +23,18 @@ int main(){
             move = 'X';
         }
         if(check(board) == 'X'){
-            cout << "X Won!";
-            break;
+            print(board);
+            cout << "\n" << "X Won!";
+            return 0;
         }
         else if(check(board) == 'O'){
-            cout << "O Won!";
-            break;
+            print(board);
+            cout << "\n" << "O Won!";
+
+            return 0;
         }
     }
+    cout << board << "\n" << "It's a draw!";
     return 0;
 }
 
@@ -69,7 +73,7 @@ char check(string board[]){
         }
     }
 
-if(board[0] == board[4] and board[4] == board[8] or board[2] == board[4] and board[4] == board[6]){
+    if(board[0] == board[4] and board[4] == board[8] or board[2] == board[4] and board[4] == board[6]){
         if(board[4] == "X"){
             return 'X';
         }

@@ -14,6 +14,7 @@ int main(){
         cout << "\nPlayer " << move << "\n" << "\nEnter the number of the field to be marked: ";
         int square;
         cin >> square;
+        cout << "\n";
 
         if(move == 'X'){
             board[square-1] = "X";
@@ -72,10 +73,11 @@ char check(string board[]){
 
     if(board[0] == board[4] and board[4] == board[8] or board[2] == board[4] and board[4] == board[6]){
         if(board[4] == "X"){
-            return 'X';
+           return 'X';
         }
         else{
             return 'O';
         }
     }
+    return 'N';
 }

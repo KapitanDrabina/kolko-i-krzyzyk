@@ -3,18 +3,32 @@ using namespace std;
 
 void print(string board[]);
 char check(string board[]);
+bool is_in_list(int square, string board[]);
 
 int main(){
     char move = 'X';
     string board[] = {"1","2","3","4","5","6","7","8","9"};
     for(int i = 1; i<=9;i++){
-        
-        print(board);
-
-        cout << "\nPlayer " << move << "\n" << "\nEnter the number of the field to be marked: ";
+    
         int square;
-        cin >> square;
-        cout << "\n";
+        bool is_correct = false;
+
+        while(is_correct == false){
+
+            print(board);
+            
+            cout << endl << "Player " << move << "\n\n" << "Enter the number of a field to be marked: ";
+            cin >> square;
+            cout << endl;
+
+            if(is_in_list(square, board) == true){
+                is_correct = true;
+            }
+            else{
+                cout << "!!!This square is already marked!!!" << "\n\n";
+            }
+        }
+
 
         if(move == 'X'){
             board[square-1] = "X";
@@ -80,4 +94,13 @@ char check(string board[]){
         }
     }
     return 'N';
+}
+
+bool is_in_list(int square, string board[]){
+    for(int i = 0; i <= 8; i++){
+        if(to_string(square) == board[i]){
+            return true;
+        }
+    }
+    return false;
 }

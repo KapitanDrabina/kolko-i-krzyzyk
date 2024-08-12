@@ -1,108 +1,103 @@
 #include <iostream>
+
 using namespace std;
 
-class gra{
+class Gra{
+    private:
+        array<string, 9> board;
+        char move;
+
     public:
-    string board[9] = {"1","2","3","4","5","6","7","8","9"};
-    char move = 'X';
-
-
-    void print(string board[]){
-        cout << " " << board[0] << " | " << board[1] << " | " << board[2] << endl;
-        cout <<"---+---+---" << endl;
-        cout << " " << board[3] << " | " << board[4] << " | " << board[5] << endl;
-        cout <<"---+---+---" << endl;
-        cout << " " << board[6] << " | " << board[7] << " | " << board[8] << endl;
-    }
-
-
-    bool is_in_list(int square, string board[]){
-        for(int i = 0; i <= 8; i++){
-            if(to_string(square) == board[i]){
-                return true;
-            }
-        }
-        return false;
-}
-
-
-    char check(string board[]){
-        for(int i = 0; i < 3; i++){
-            if(board[i] == board[i+3] and board[i+3] == board[i+6]){
-                if(board[i] == "X"){
-                    return 'X';
-                }
-                else{
-                    return 'O';
-                }
-            }
+        Gra() : board({"1", "2", "3", "4", "5", "6", "7", "8", "9"})
+        {
+            move = 'X';
         }
 
-        for(int i = 0; i < 7; i = i + 3){
-            if(board[i] == board[i+1] and board[i+1] == board[i+2]){
-                if(board[i] == "X"){
-                    return 'X';
-                }
-                else{
-                    return 'O';
-                }
-            }
+        array<string, 9> getBoard()
+        {
+            return this->board;
         }
 
-        if(board[0] == board[4] and board[4] == board[8] or board[2] == board[4] and board[4] == board[6]){
-            if(board[4] == "X"){
-            return 'X';
-            }
-            else{
-                return 'O';
-            }
+        void setBoard(int position, char value)
+        {
+            this->board[position] = value;
         }
-        return 'N';
-    }
+
+        char getMove()
+        {
+            return this->move;
+        }
+
+        void setMove(char move)
+        {
+            this->move = move;
+        }
+
+        void print() {
+            cout << " " << this->board[0] << " | " << this->board[1] << " | " << this->board[2] << endl;
+            cout <<"---+---+---" << endl;
+            cout << " " << this->board[3] << " | " << this->board[4] << " | " << this->board[5] << endl;
+            cout <<"---+---+---" << endl;
+            cout << " " << this->board[6] << " | " << this->board[7] << " | " << this->board[8] << endl;
+        }
+
+        bool is_in_list(int square){
+            return to_string(square) == this->board[square-1];
+        }
+
+        string check(){
+            for(int i = 0; i < 3; i++){
+                if(this->board[i] == this->board[i+3] and this->board[i+3] == this->board[i+6]){
+                    return this->board[i];
+                }
+            }
+
+            for(int i = 0; i < 7; i = i + 3){
+                if(this->board[i] == this->board[i+1] and this->board[i+1] == this->board[i+2]){
+                    return this->board[i];
+                }
+            }
+
+            if((this->board[0] == this->board[4] and this->board[4] == this->board[8]) or (this->board[2] == this->board[4] and this->board[4] == this->board[6])){
+                return this->board[4];
+            }
+
+            return "N";
+        }
 };
 
 int main(){
-    gra runda;
+    Gra runda = Gra();
 
-    for(int i = 1; i<=9;i++){
+    for(int i = 1; i <= 9; i++){
         int square;
         bool is_correct = false;
 
-        while(is_correct == false){
-
-            runda.print(runda.board);
+        while(!is_correct){
+            runda.print();
             
-            cout << endl << "Player " << runda.move << "\n\n" << "Enter the number of a field to be marked: ";
+            cout << endl << "Player " << runda.getMove() << "\n\nEnter the number of a field to be marked: ";
             cin >> square;
             cout << endl;
 
-            if(runda.is_in_list(square, runda.board) == true){
+            if (runda.is_in_list(square)) {
                 is_correct = true;
+            } else {
+                cout << "!!!This square is already marked!!!\n\n";
             }
-            else{
-                cout << "!!!This square is already marked!!!" << "\n\n";
-            }
         }
-        if(runda.move == 'X'){
-            runda.board[square-1] = "X";
-            runda.move = 'O';
-        }
-        else{
-            runda.board[square-1] = "O";
-            runda.move = 'X';
-        }
-        if(runda.check(runda.board) == 'X'){
-            runda.print(runda.board);
-            cout << "\n" << "X Won!";
+
+        runda.setBoard(square-1, runda.getMove());
+        runda.setMove(runda.getMove() == 'X' ? 'O' : 'X');
+
+        if (runda.check() != "N") {
+            runda.print();
+            cout << "\n" << runda.check() << " Won!";
             return 0;
-        }
-        else if(runda.check(runda.board) == 'O'){
-            runda.print(runda.board);
-            cout << "\n" << "O Won!";
-            return 0;
-        }
+        } 
     }
-    runda.print(runda.board);
+    runda.print();
     cout << "\n" << "It's a draw!";
+
     return 0;
 }
